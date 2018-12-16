@@ -55,6 +55,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -295,6 +297,7 @@ module.exports = {
               ),
               
               plugins: [
+                ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {
@@ -402,6 +405,27 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          {
+            test: lessRegex,
+            exclude: lessModuleRegex,
+            use: [
+              {
+                loader: require.resolve('style-loader')
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1
+                }
+              },
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                },
+              }
+            ]
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.

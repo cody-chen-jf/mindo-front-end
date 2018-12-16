@@ -221,8 +221,8 @@ module.exports = {
               customize: require.resolve(
                 'babel-preset-react-app/webpack-overrides'
               ),
-              
               plugins: [
+                ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {
@@ -302,11 +302,6 @@ module.exports = {
             exclude: sassModuleRegex,
             use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
           },
-          {
-            test: lessRegex,
-            exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
-          },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
           {
@@ -319,6 +314,27 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          {
+            test: lessRegex,
+            exclude: lessModuleRegex,
+            use: [
+              {
+                loader: require.resolve('style-loader')
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1
+                }
+              },
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                },
+              }
+            ]
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
