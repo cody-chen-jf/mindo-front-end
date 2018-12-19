@@ -6,7 +6,6 @@ const defaultState = fromJS({
 });
 
 const changeHomeData = (state, action) => {
-  console.log('action === ', action)
   return state.merge({
     homeData: fromJS(action.data)
   });
