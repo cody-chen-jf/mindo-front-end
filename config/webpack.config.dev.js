@@ -40,6 +40,10 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
+function resolvePath(dir) {
+  return path.join(__dirname, '..', dir);
+}
+
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
@@ -152,6 +156,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      '@': resolvePath('src'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
